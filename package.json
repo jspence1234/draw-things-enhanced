@@ -1,0 +1,30 @@
+{
+  "name": "draw-things-enhanced",
+  "version": "1.0.0",
+  "description": "Enhanced web UI for Draw Things with streamlined controls",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8080",
+    "dev": "live-server --port=8080"
+  },
+  "keywords": [
+    "draw-things",
+    "stable-diffusion",
+    "ai-art",
+    "image-generation",
+    "web-ui"
+  ],
+  "author": "Draw Things Enhanced Contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jspence1234/draw-things-enhanced.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jspence1234/draw-things-enhanced/issues"
+  },
+  "homepage": "https://github.com/jspence1234/draw-things-enhanced#readme",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

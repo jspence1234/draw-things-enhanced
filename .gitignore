@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Log files
+*.log
+npm-debug.log*
+
+# Generated files
+dist/
+build/
+
+# Local configuration
+config.local.json
+.env
+.env.local
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# User data (keep this local)
+gallery-backup/
+exports/

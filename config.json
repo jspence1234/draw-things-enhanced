@@ -1,0 +1,44 @@
+{
+  "name": "Draw Things Enhanced",
+  "version": "1.0.0",
+  "description": "Enhanced web UI for Draw Things",
+  "defaultSettings": {
+    "endpoints": {
+      "local": "http://localhost:7860",
+      "cloud": ""
+    },
+    "polling": {
+      "interval": 1000,
+      "timeout": 300000
+    },
+    "gallery": {
+      "thumbnailSize": 256,
+      "maxImages": 1000,
+      "autoSave": true
+    },
+    "ui": {
+      "theme": "dark",
+      "compactMode": false,
+      "showAdvanced": false
+    }
+  },
+  "presets": {
+    "default": {
+      "model": "stable-diffusion-v1-5",
+      "sampler": "k_lms",
+      "steps": 20,
+      "guidance": 7.5,
+      "width": 1024,
+      "height": 1024
+    },
+    "fast": {
+      "steps": 10,
+      "sampler": "k_euler_a"
+    },
+    "quality": {
+      "steps": 50,
+      "sampler": "k_dpm_2",
+      "guidance": 12
+    }
+  }
+}

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw Things Enhanced</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="app-header">
+            <h1>Draw Things Enhanced</h1>
+            <div class="connection-status">
+                <span class="status-indicator" id="connectionStatus"></span>
+                <select id="backendSelector">
+                    <option value="local">Local</option>
+                    <option value="cloud">Cloud Compute</option>
+                </select>
+            </div>
+        </header>
+
+        <!-- Main Container -->
+        <div class="main-container">
+            <!-- Left Panel: Generation Controls -->
+            <div class="generation-panel">
+                <!-- Prompt Section -->
+                <div class="prompt-section">
+                    <textarea id="prompt" placeholder="Enter your prompt..."></textarea>
+                    <textarea id="negativePrompt" placeholder="Negative prompt (optional)..."></textarea>
+                </div>
+
+                <!-- Model Selection -->
+                <div class="model-section">
+                    <div class="control-group">
+                        <label>Model</label>
+                        <select id="modelSelect"></select>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>LoRA</label>
+                        <select id="loraSelect"></select>
+                        <div class="slider-control">
+                            <input type="range" id="loraWeight" min="0" max="2" step="0.1" value="1">
+                            <input type="number" id="loraWeightText" min="0" max="2" step="0.1" value="1">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Upscaler</label>
+                        <select id="upscalerSelect">
+                            <option value="none">None</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Sampler</label>
+                        <select id="samplerSelect"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Refiner</label>
+                        <select id="refinerSelect">
+                            <option value="none">None</option>
+                        </select>
+                        <div class="slider-control">
+                            <input type="range" id="refinerStart" min="0" max="100" value="80">
+                            <input type="number" id="refinerStartText" min="0" max="100" value="80">
+                            <span>%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Generation Parameters -->
+                <div class="parameters-section">
+                    <div class="parameter-control">
+                        <label>Strength</label>
+                        <input type="range" id="strength" min="0" max="1" step="0.05" value="0.75">
+                        <input type="number" id="strengthText" min="0" max="1" step="0.05" value="0.75">
+                        <span class="mode-indicator" id="modeIndicator">I2I</span>
+                    </div>
+
+                    <div class="parameter-control">
+                        <label>Width</label>
+                        <input type="range" id="width" min="64" max="2048" step="64" value="1024">
+                        <input type="number" id="widthText" min="64" max="2048" step="64" value="1024">
+                        <span>px</span>
+                    </div>
+
+                    <div class="parameter-control">
+                        <label>Height</label>
+                        <input type="range" id="height" min="64" max="2048" step="64" value="1024">
+                        <input type="number" id="heightText" min="64" max="2048" step="64" value="1024">
+                        <span>px</span>
+                    </div>
+
+                    <div class="parameter-control">
+                        <label>Steps</label>
+                        <input type="range" id="steps" min="1" max="150" value="20">
+                        <input type="number" id="stepsText" min="1" max="150" value="20">
+                    </div>
+
+                    <div class="parameter-control">
+                        <label>Guidance</label>
+                        <input type="range" id="guidance" min="1" max="30" step="0.5" value="7.5">
+                        <input type="number" id="guidanceText" min="1" max="30" step="0.5" value="7.5">
+                    </div>
+
+                    <div class="parameter-control">
+                        <label>Clip Skip</label>
+                        <input type="range" id="clipSkip" min="1" max="12" value="1">
+                        <input type="number" id="clipSkipText" min="1" max="12" value="1">
+                    </div>
+
+                    <div class="parameter-control">
+                        <label>Batch Size</label>
+                        <input type="range" id="batchSize" min="1" max="4" value="1">
+                        <input type="number" id="batchSizeText" min="1" max="4" value="1">
+                    </div>
+                </div>
+
+                <!-- Script Runner -->
+                <div class="script-section" id="scriptSection">
+                    <div class="section-header" onclick="toggleScriptRunner()">
+                        <span class="toggle-icon">▼</span> Script Runner
+                    </div>
+                    <div class="script-content" id="scriptContent">
+                        <textarea id="scriptEditor" placeholder="// Custom generation script"></textarea>
+                        <div class="script-controls">
+                            <button onclick="loadScript()">Load Script</button>
+                            <button onclick="saveScript()">Save Script</button>
+                            <button onclick="runScript()">Run Script</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Generate Button -->
+                <button class="generate-button" id="generateBtn" onclick="generate()">Generate</button>
+            </div>
+
+            <!-- Center Panel: Preview -->
+            <div class="preview-panel">
+                <div class="preview-container">
+                    <img id="previewImage" style="display:none;">
+                    <div id="progressIndicator" class="progress-indicator">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <span id="progressText">Ready</span>
+                    </div>
+                </div>
+                <div class="preview-controls">
+                    <button onclick="saveImage()">Save</button>
+                    <button onclick="favoriteImage()">Favorite</button>
+                    <button onclick="deleteImage()">Delete</button>
+                </div>
+            </div>
+
+            <!-- Right Panel: Gallery -->
+            <div class="gallery-panel">
+                <div class="gallery-header">
+                    <input type="text" id="gallerySearch" placeholder="Search...">
+                    <select id="gallerySort">
+                        <option value="date">By Date</option>
+                        <option value="model">By Model</option>
+                        <option value="favorites">Favorites</option>
+                    </select>
+                </div>
+                <div class="gallery-grid" id="galleryGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/gallery.js"></script>
+    <script src="js/scripts.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
